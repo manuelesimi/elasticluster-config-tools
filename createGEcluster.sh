@@ -2,7 +2,7 @@
 
 NAME=gridengine
 SCRIPTS_DIR=/home/ubuntu/config-tools
-
+CONFIG_TOOLS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # create the GE cluster on the cloud platform
 #elasticluster start $NAME
 
@@ -14,7 +14,7 @@ echo "installing packages on $host"
 if [ "$first" == "yes" ]; then
 elasticluster sftp $NAME -n $host << EOF
 mkdir $SCRIPTS_DIR
-put install_packages.sh $SCRIPTS_DIR
+put $CONFIG_TOOLS_DIR/install_packages.sh $SCRIPTS_DIR
 EOF
 first=no
 fi
