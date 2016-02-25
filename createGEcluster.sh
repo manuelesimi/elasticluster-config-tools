@@ -1,6 +1,6 @@
 NAME=gridengine
-SCRIPTS_DIR=/home/ubuntu/scripts6
-#elasticluster start $NAME
+SCRIPTS_DIR=/home/ubuntu/scripts
+elasticluster start $NAME
 
 
 for host in `elasticluster list-nodes gridengine | grep "  -" | cut -d'-' -f2`; do
