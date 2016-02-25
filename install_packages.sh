@@ -7,8 +7,6 @@ if [ "$JAVA_VER" -ge 7 ]; then
 else
     echo "Java version is lower than 7."
     sudo apt-get -y install openjdk-7-jre-headless
-    cd /usr/bin
-   sudo ln -s /usr/lib/jvm/java-7-openjdk-amd64/bin/java	
 fi
 
 #install nextflow if needed
