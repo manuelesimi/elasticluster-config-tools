@@ -20,6 +20,6 @@ else
 fi
 
 #add to PATH
-export PATH=$HOME/nextflow:$PATH
+echo "export PATH=$HOME/nextflow:$PATH" >> $HOME/.bashrc
 
 cd $WORK_DIR
