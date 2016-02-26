@@ -14,14 +14,14 @@ echo "installing packages on $host"
 if [ "$first" == "yes" ]; then
 elasticluster sftp $NAME -n $host << EOF
 mkdir $SCRIPTS_DIR
-put $CONFIG_TOOLS_DIR/install_packages.sh $SCRIPTS_DIR
+put $CONFIG_TOOLS_DIR/../cluster/node-install-packages.sh $SCRIPTS_DIR
 EOF
 first=no
 fi
 
 #install the packages on the node
 elasticluster ssh $NAME -n $host << END
-source $SCRIPTS_DIR/install_packages.sh
+source $SCRIPTS_DIR/node-install-packages.sh
 END
 
 done
