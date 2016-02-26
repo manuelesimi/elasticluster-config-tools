@@ -24,15 +24,20 @@ fi
 #add to PATH
 echo "export PATH=$HOME/nextflow:$PATH" >> $HOME/.bashrc
 
-#docker
-apt-get -y install apt-transport-https ca-certificates
+# Docker installtion
+sudo apt-get -y install apt-transport-https ca-certificates
 sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-echo "deb https://apt.dockerproject.org/repo ubuntu-precise main" > /etc/apt/sources.list.d/docker.list
-apt-get update
-apt-get purge lxc-docker
+
+# Add the repository to your APT sources
+echo "deb https://apt.dockerproject.org/repo ubuntu-precise main" > docker.list && sudo mv docker.list /etc/apt/sources.list.d/
+sudo apt-get update
 apt-cache policy docker-engine
-sudo apt-get install linux-image-generic-lts-trusty
-sudo reboot
-sudo apt-get install docker-engine
+
+# Install docker and start
+sudo apt-get -y install docker-engine
 sudo service docker start
+
+# Test the installation
+sudo docker run hello-world
+
 cd $WORK_DIR
