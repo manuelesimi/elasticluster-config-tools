@@ -3,8 +3,9 @@
 NAME=gridengine
 SCRIPTS_DIR=/home/ubuntu/config-tools
 CONFIG_TOOLS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # create the GE cluster on the cloud platform
-#elasticluster start $NAME
+elasticluster start $NAME
 
 first=yes
 for host in `elasticluster list-nodes gridengine | grep "  -" | cut -d'-' -f2`; do
