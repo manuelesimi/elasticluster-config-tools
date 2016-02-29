@@ -26,3 +26,11 @@ source $SCRIPTS_DIR/node-install-packages.sh
 END
 
 done
+
+#log in the frontend and change the shell used by GE from csh to bash
+
+elasticluster ssh $NAME << FRONTEND
+qconf -sq all.q > new_queue_config
+sed -i ’s#csh#/bin/bash#g' new_queue_config
+sudo qconf -Mq new_queue_config
+FRONTEND
