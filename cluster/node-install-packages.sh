@@ -34,9 +34,13 @@ if [ -z `which docker` ]; then
 	sudo apt-get update
 	apt-cache policy docker-engine
 
-	# Install docker and start
+	# Install docker and start the daemon
 	sudo apt-get -y install docker-engine
 	sudo service docker start
+	
+	#create the docker group and add the docker user. This avoids to have to use sudo in all the docker commands. Nextflow won't work without this setting.
+	sudo usermod -aG docker ubuntu	
+	
 else 
 	echo "Docker is already installed on this machine."
 fi
