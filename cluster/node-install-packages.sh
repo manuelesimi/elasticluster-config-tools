@@ -11,16 +11,11 @@ else
     sudo apt-get -y install openjdk-7-jre-headless
 fi
 
-#install nextflow if needed
+#install nextflow 
 cd $HOME
-if [ ! -d nextflow/ ]; then
-	mkdir -p nextflow
-	cd nextflow/
-	curl -fsSL get.nextflow.io | bash
-else
-	echo "Nextflow is already installed on this machine."
-fi
-
+mkdir -p nextflow
+cd nextflow/
+curl -fsSL get.nextflow.io | bash
 #add to PATH
 echo "export PATH=$HOME/nextflow:$PATH" >> $HOME/.bashrc
 
@@ -38,7 +33,7 @@ if [ -z `which docker` ]; then
 	sudo apt-get -y install docker-engine
 	sudo service docker start
 	
-	#create the docker group and add the docker user. This avoids to have to use sudo in all the docker commands. Nextflow won't work without this setting.
+	#create the docker group and add the ubuntu user. This avoids to have to use sudo in all the docker commands. Nextflow won't work without this setting.
 	sudo usermod -aG docker ubuntu	
 	
 else 
