@@ -1,0 +1,26 @@
+NAME=gridengine
+JOB_AREA=/home/ubuntu
+DIR_TO_UPLOAD=$1
+SESSION_ID=$2
+WORKFLOW_ABSOLUTE_PATH=$3
+WORKFLOW_DIR="$( cd "$( dirname "${WORKFLOW_ABSOLUTE_PATH}" )" && pwd )"
+WORKFLOW_FILE=$(basename "${WORKFLOW_ABSOLUTE_PATH}")
+DEST_DIR=$JOB_AREA/$SESSION_ID
+
+echo "Uploading workflow files to ${DEST_DIR}..."
+elasticluster ssh $NAME << MAKE
+rm -rf $DEST_DIR
+mkdir -p $DEST_DIR
+MAKE
+
+elasticluster sftp $NAME << PUT
+put -r $WORFLOW_DIR/* $DEST_DIR
+PUT
+
+echo "Submitting workflow at $DEST_DIR/$WORKFLOW_FILE..."
+elasticluster ssh $NAME << QSUB
+cd $DEST_DIR
+nohup nextflow "${DEST_DIR}/${WORKFLOW_FILE}" &
+QSUB
+
+echo Done
