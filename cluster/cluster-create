@@ -23,7 +23,7 @@ fi
 #install the packages on the node, create the scratch dir to use in the GE queue
 elasticluster ssh $NAME -n $host << END
 source $SCRIPTS_DIR/node-install-packages.sh
-mkdir -p /scratch
+mkdir -p /home/ubuntu/scratch
 END
 
 done
@@ -32,6 +32,6 @@ done
 elasticluster ssh $NAME << FRONTEND
 qconf -sq all.q > new_queue_config
 sed -i 's#/bin/csh#/bin/bash#g' new_queue_config
-sed -i 's#/tmp#/scratch#g' new_queue_config
+sed -i 's#/tmp#/home/ubuntu/scratch#g' new_queue_config
 sudo qconf -Mq new_queue_config
 FRONTEND
