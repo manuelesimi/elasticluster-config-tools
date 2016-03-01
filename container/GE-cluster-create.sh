@@ -20,9 +20,10 @@ EOF
 first=no
 fi
 
-#install the packages on the node
+#install the packages on the node, create the scratch dir to use in the GE queue
 elasticluster ssh $NAME -n $host << END
 source $SCRIPTS_DIR/node-install-packages.sh
+mkdir -p /scratch
 END
 
 done
@@ -30,6 +31,7 @@ done
 #log in the frontend and change the shell used by GE from csh to bash
 elasticluster ssh $NAME << FRONTEND
 qconf -sq all.q > new_queue_config
-sed -i 's#csh#/bin/bash#g' new_queue_config
+sed -i 's#/bin/csh#/bin/bash#g' new_queue_config
+sed -i 's#/tmp#/scratch#g' new_queue_config
 sudo qconf -Mq new_queue_config
 FRONTEND
