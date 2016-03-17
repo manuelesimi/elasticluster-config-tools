@@ -1,3 +1,5 @@
+#!/bin/bash
+
 NAME=gridengine
 JOB_AREA=/home/ubuntu
 SESSION_ID=$2

@@ -1,4 +1,4 @@
-
+#!/bin/bash
 
 NAME=gridengine
 HOME=/home/ubuntu

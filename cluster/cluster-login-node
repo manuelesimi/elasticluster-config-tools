@@ -1,1 +1,3 @@
+#!/bin/bash
+
 elasticluster ssh gridengine -n $1
