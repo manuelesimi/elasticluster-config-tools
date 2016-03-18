@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$KEYS=`cat $1`
+KEYS=`cat $1`
 
 elasticluster ssh gridengine <<  EOF
 echo "$KEYS" >>  ~/.ssh/authorized_keys
