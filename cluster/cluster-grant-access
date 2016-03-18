@@ -1,8 +1,7 @@
 #!/bin/bash
 
-NAME=gridengine
-HOME=/home/ubuntu
+$KEYS=`cat $1`
 
-elasticluster ssh $NAME  << EOF
-echo $1 >> $HOME/.ssh/authorized_keys
+elasticluster ssh gridengine <<  EOF
+echo "$KEYS" >>  ~/.ssh/authorized_keys
 EOF
