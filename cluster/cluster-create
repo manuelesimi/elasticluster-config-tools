@@ -35,3 +35,6 @@ sed -i 's#/bin/csh#/bin/bash#g' new_queue_config
 sed -i 's#/tmp#/home/ubuntu/scratch#g' new_queue_config
 sudo qconf -Mq new_queue_config
 FRONTEND
+
+echo "Cluster successfully created."
+
