@@ -36,5 +36,10 @@ sed -i 's#/tmp#/home/ubuntu/scratch#g' new_queue_config
 sudo qconf -Mq new_queue_config
 FRONTEND
 
-echo "Cluster successfully created."
+if [ $? -eq 0 ]
+then
+  echo "Cluster successfully created."
+else
+  echo "Could not create the cluster." >&2
+fi
 
