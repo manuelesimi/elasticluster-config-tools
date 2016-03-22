@@ -18,7 +18,7 @@ cd nextflow/
 curl -fsSL get.nextflow.io | bash
 #add to PATH
 echo "export PATH=$HOME/nextflow:$PATH" >> $HOME/.bashrc
-
+echo "export PATH=$HOME/nextflow:$PATH" >> $HOME/.bash_profile
 # install docker if needed
 if [ -z `which docker` ]; then
 	sudo apt-get -y install apt-transport-https ca-certificates
