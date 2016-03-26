@@ -37,7 +37,7 @@ if [ -z `which docker` ]; then
 	sudo usermod -aG docker ubuntu	
 	
 	#restart docker daemon to check if it works properly
-	sudo restart docker
+	#sudo restart docker
 else 
 	echo "Docker is already installed on this machine."
 fi
