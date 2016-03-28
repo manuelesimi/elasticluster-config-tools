@@ -37,7 +37,16 @@ if [ -z `which docker` ]; then
 	sudo usermod -aG docker ubuntu	
 	
 	#restart docker daemon to check if it works properly
-	#sudo restart docker
+	sudo status docker
+	echo "Restarting docker..."
+	sudo restart docker
+	if [ $? -eq 0 ]
+	then
+  		echo "Docker successfully restarted."
+	else
+  		echo "Could not restart docker." >&2
+	fi
+	sudo status docker
 else 
 	echo "Docker is already installed on this machine."
 fi
