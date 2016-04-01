@@ -43,14 +43,13 @@ if [ -z `which docker` ]; then
 	#restart docker daemon to check if it works properly
 	sudo status docker
 	echo "Restarting docker..."
-	sudo restart docker
+	sudo start docker
 	if [ $? -eq 0 ]
 	then
   		echo "Docker successfully restarted."
 	else
-  		echo "Could not restart docker." >&2
+  		echo "Could not restart docker. Likely it is already running" >&2
 	fi
-	sudo status docker
 else 
 	echo "Docker is already installed on this machine."
 fi
