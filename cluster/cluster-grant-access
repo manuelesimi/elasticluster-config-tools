@@ -1,7 +1,11 @@
 #!/bin/bash
 
+NAME=gridengine
+CLUSTER_NAME=gridengine
+. $HOME/.elasticluster/env
+
 KEYS=`cat /data/new-keys`
 
-elasticluster ssh gridengine <<  EOF
+elasticluster ssh $CLUSTER_NAME <<  EOF
 echo "$KEYS" >>  ~/.ssh/authorized_keys
 EOF

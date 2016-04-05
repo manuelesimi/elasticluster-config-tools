@@ -1,19 +1,22 @@
 #!/bin/bash
 
 NAME=gridengine
+CLUSTER_NAME=gridengine
+. $HOME/.elasticluster/env
+
 SCRIPTS_DIR=/home/ubuntu/config-tools
 CONFIG_TOOLS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # create the GE cluster on the cloud platform
-elasticluster start $NAME
+elasticluster start --name $CLUSTER_NAME $NAME 
 
 first=yes
-for host in `elasticluster list-nodes gridengine | grep "  -" | cut -d'-' -f2`; do
+for host in `elasticluster list-nodes $CLUSTER_NAME | grep "  -" | cut -d'-' -f2`; do
 echo "installing packages on $host"
 
 #since the home folder is shared among the nodes, we upload the script only once
 if [ "$first" == "yes" ]; then
-elasticluster sftp $NAME -n $host << EOF
+elasticluster sftp $CLUSTER_NAME -n $host << EOF
 mkdir $SCRIPTS_DIR
 put $CONFIG_TOOLS_DIR/../nodes/node-install-packages.sh $SCRIPTS_DIR
 EOF
@@ -21,14 +24,14 @@ first=no
 fi
 
 #install the packages on the node, create the scratch dir to use in the GE queue
-elasticluster ssh $NAME -n $host << END
+elasticluster ssh $CLUSTER_NAME -n $host << END
 source $SCRIPTS_DIR/node-install-packages.sh
 END
 
 done
 
 #log in the frontend and change the shell used by GE from csh to bash
-elasticluster ssh $NAME << FRONTEND
+elasticluster ssh $CLUSTER_NAME << FRONTEND
 touch /home/ubuntu/.hushlogin
 sudo mkdir /scratch
 sudo chmod -R a+w+r /scratch
@@ -40,7 +43,7 @@ FRONTEND
 
 if [ $? -eq 0 ]
 then
-  echo "Cluster successfully created."
+  echo "Cluster ${CLUSTER_NAME} successfully created."
 else
   echo "Could not create the cluster." >&2
 fi

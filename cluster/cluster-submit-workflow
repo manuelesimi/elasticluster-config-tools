@@ -1,6 +1,9 @@
 #!/bin/bash
 
 NAME=gridengine
+CLUSTER_NAME=gridengine
+. $HOME/.elasticluster/env
+
 JOB_AREA=/home/ubuntu
 SESSION_ID=$2
 WORKFLOW_ABSOLUTE_PATH=$1
@@ -9,17 +12,17 @@ WORKFLOW_FILE=$(basename "${WORKFLOW_ABSOLUTE_PATH}")
 DEST_DIR=$JOB_AREA/$SESSION_ID
 
 echo "Uploading workflow files to ${DEST_DIR}..."
-elasticluster ssh $NAME << MAKE
+elasticluster ssh $CLUSTER_NAME << MAKE
 rm -rf $DEST_DIR
 mkdir -p $DEST_DIR
 MAKE
 
-elasticluster sftp $NAME << PUT
+elasticluster sftp $CLUSTER_NAME << PUT
 put -r $WORKFLOW_DIR/* $DEST_DIR
 PUT
 
 echo "Submitting workflow at $DEST_DIR/$WORKFLOW_FILE..."
-elasticluster ssh $NAME << QSUB
+elasticluster ssh $CLUSTER_NAME << QSUB
 source /home/ubuntu/.bashrc
 cd $DEST_DIR
 nohup /home/ubuntu/nextflow/nextflow "${DEST_DIR}/${WORKFLOW_FILE}" &

@@ -1,3 +1,7 @@
 #!/bin/bash
 
-elasticluster list-nodes gridengine
+NAME=gridengine
+CLUSTER_NAME=gridengine
+. $HOME/.elasticluster/env
+
+elasticluster list-nodes $CLUSTER_NAME
