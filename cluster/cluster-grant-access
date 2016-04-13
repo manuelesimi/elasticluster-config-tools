@@ -5,7 +5,6 @@ CLUSTER_NAME=gridengine
 . $HOME/.elasticluster/env
 
 LOWERCASE_NAME="$(echo $CLUSTER_NAME | tr '[A-Z]' '[a-z]')"
-echo "lower case: ${LOWERCASE_NAME}."
 # Add keys with the gcloud sdk
 # see https://cloud.google.com/compute/docs/instances/adding-removing-ssh-keys?hl=en_US&_ga=1.175728800.368579898.1455134976#deprecated
 gcloud init --console-only
