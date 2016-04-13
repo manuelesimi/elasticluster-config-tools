@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source $HOME/.bashrc
+
 NAME=gridengine
 CLUSTER_NAME=gridengine
 . $HOME/.elasticluster/env
