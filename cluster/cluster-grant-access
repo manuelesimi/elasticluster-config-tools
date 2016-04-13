@@ -10,11 +10,11 @@ LOWERCASE_NAME="$(echo $CLUSTER_NAME | tr '[A-Z]' '[a-z]')"
 # Add keys with the gcloud sdk
 # see https://cloud.google.com/compute/docs/instances/adding-removing-ssh-keys?hl=en_US&_ga=1.175728800.368579898.1455134976#deprecated
 gcloud init --console-only
-gcloud compute instances add-metadata $LOWERCASE_NAME-frontend001 --metadata-from-file sshKeys=$HOME/.elasticluster/cluster-keys
+gcloud compute instances add-metadata $LOWERCASE_NAME-frontend001 --metadata-from-file sshKeys=$HOME/.elasticluster/console-cluster-keys
 
 # Sometimes it takes time to propagate the keys to the frontend, so we also manually add them 
 # (the copy will be wiped out when the google daemon synchronizes the keys in the VM with the ones stored by the gcloud sdk)
-KEYS=`cat $HOME/.elasticluster/cluster-keys`
+KEYS=`cat $HOME/.elasticluster/ssh-cluster-keys`
 elasticluster ssh $CLUSTER_NAME <<  EOF
 echo "$KEYS" >>  ~/.ssh/authorized_keys
 EOF
