@@ -1,0 +1,12 @@
+---
+- name: NextflowWorkbench frontend Playbook
+  hosts: gridengine_master:gridengine_clients 
+  tasks:
+  - name: Create targert dir
+    command: mkdir /home/ubuntu/config-tools
+  - name: Copy installation script to node
+    action: copy src="workflow/node-install-packages.sh" dest="/home/ubuntu/config-tools/node-install-packages.sh"
+  - name: Execute the script
+    command: source /home/ubuntu/config-tools/node-install-packages.sh	
+  - name: Make sure docker is running
+    service: name=docker state=running
