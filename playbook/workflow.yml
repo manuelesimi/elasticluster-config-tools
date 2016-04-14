@@ -1,6 +1,6 @@
 ---
 - name: NextflowWorkbench frontend Playbook
-  hosts: gridengine_master:gridengine_clients 
+  hosts: workflow_nodes 
   tasks:
   - name: Create targert dir
     command: mkdir /home/ubuntu/config-tools
