@@ -13,7 +13,7 @@
   - name: Install workflow packages
     shell: source /home/ubuntu/config-tools/node-install-packages.sh
     args:
-    	executable: /bin/bash
+      executable: /bin/bash
     become: yes
     become_user: ubuntu
   - name: Make sure docker is running
