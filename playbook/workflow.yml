@@ -1,12 +1,20 @@
 ---
-- name: NextflowWorkbench frontend Playbook
+- name: NextflowWorkbench workflow nodes Playbook
   hosts: workflow_nodes 
   tasks:
-  - name: Create targert dir
-    command: mkdir /home/ubuntu/config-tools
+  - name: Create target dir
+    command: mkdir -p /home/ubuntu/config-tools
+    become: yes
+    become_user: ubuntu
   - name: Copy installation script to node
     action: copy src="workflow/node-install-packages.sh" dest="/home/ubuntu/config-tools/node-install-packages.sh"
-  - name: Execute the script
-    command: source /home/ubuntu/config-tools/node-install-packages.sh
+    become: yes
+    become_user: ubuntu
+  - name: Install workflow packages
+    shell: source /home/ubuntu/config-tools/node-install-packages.sh
+    args:
+    	executable: /bin/bash
+    become: yes
+    become_user: ubuntu
   - name: Make sure docker is running
     service: name=docker state=running
