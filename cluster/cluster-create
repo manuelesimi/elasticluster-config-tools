@@ -10,25 +10,6 @@ CONFIG_TOOLS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # create the GE cluster on the cloud platform
 elasticluster start --name $CLUSTER_NAME $NAME 
 
-first=yes
-for host in `elasticluster list-nodes $CLUSTER_NAME | grep "  -" | cut -d'-' -f2`; do
-echo "installing packages on $host"
-
-#since the home folder is shared among the nodes, we upload the script only once
-if [ "$first" == "yes" ]; then
-elasticluster sftp $CLUSTER_NAME -n $host << EOF
-mkdir $SCRIPTS_DIR
-put $CONFIG_TOOLS_DIR/../nodes/node-install-packages.sh $SCRIPTS_DIR
-EOF
-first=no
-fi
-
-#install the packages on the node, create the scratch dir to use in the GE queue
-elasticluster ssh $CLUSTER_NAME -n $host << END
-source $SCRIPTS_DIR/node-install-packages.sh
-END
-
-done
 
 #log in the frontend and change the shell used by GE from csh to bash
 elasticluster ssh $CLUSTER_NAME << FRONTEND
