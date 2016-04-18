@@ -23,6 +23,6 @@
   - name: Hush login messages
     command: touch /home/ubuntu/.hushlogin
     become: yes
-    become_user: ubuntu	
+    become_user: ubuntu
   - name: Make sure docker is running
     service: name=docker state=running
