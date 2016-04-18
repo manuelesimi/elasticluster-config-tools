@@ -16,5 +16,13 @@
       executable: /bin/bash
     become: yes
     become_user: ubuntu
+  - name: Add scratch dir
+    command: mkdir /scratch && chmod -R a+w+r /scratch
+    become: yes
+    become_user: root
+  - name: Hush login messages
+    command: touch /home/ubuntu/.hushlogin
+    become: yes
+    become_user: ubuntu	
   - name: Make sure docker is running
     service: name=docker state=running
