@@ -16,9 +16,10 @@ else
 fi
 
 #install nextflow 
-if [ -z `which docker` ]; then
+if [ -z `which nextflow` ]; then
 	cd /usr/local/
-	mkdir -p nextflow
+	sudo mkdir -p nextflow
+	chown -R a+x+w+r nextflow
 	cd nextflow/
 	curl -fsSL get.nextflow.io | bash
 	#add to PATH
