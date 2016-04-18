@@ -3,7 +3,7 @@
   hosts: workflow_nodes 
   tasks:
   - name: Create target dir
-    command: mkdir -p /home/ubuntu/config-tools
+    file: path=/home/ubuntu/config-tools state=directory
     become: yes
     become_user: ubuntu
   - name: Copy installation script to node
@@ -17,11 +17,11 @@
     become: yes
     become_user: ubuntu
   - name: Add scratch dir
-    command: mkdir /scratch && chmod -R a+w+r /scratch
+    file: path=/scratch state=directory recurse=yes mode="a+w+r"
     become: yes
     become_user: root
   - name: Hush login messages
-    command: touch /home/ubuntu/.hushlogin
+    file: path=/home/ubuntu/.hushlogin state=touch
     become: yes
     become_user: ubuntu
   - name: Make sure docker is running
