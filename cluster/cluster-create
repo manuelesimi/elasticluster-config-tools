@@ -4,23 +4,8 @@ NAME=gridengine
 CLUSTER_NAME=gridengine
 . $HOME/.elasticluster/env
 
-SCRIPTS_DIR=/home/ubuntu/config-tools
-CONFIG_TOOLS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 # create the GE cluster on the cloud platform
 elasticluster start --name $CLUSTER_NAME $NAME 
-
-
-#log in the frontend and change the shell used by GE from csh to bash
-elasticluster ssh $CLUSTER_NAME << FRONTEND
-touch /home/ubuntu/.hushlogin
-sudo mkdir /scratch
-sudo chmod -R a+w+r /scratch
-qconf -sq all.q > new_queue_config
-sed -i 's#/bin/csh#/bin/bash#g' new_queue_config
-sed -i 's#/tmp#/scratch#g' new_queue_config
-sudo qconf -Mq new_queue_config
-FRONTEND
 
 if [ $? -eq 0 ]
 then
