@@ -17,7 +17,7 @@
     become: yes
     become_user: ubuntu
   - name: Add scratch dir
-    file: path=/scratch state=directory recurse=yes mode="a+w+r"
+    file: path=/scratch state=directory recurse=yes mode="u+rwx,g+rwx,o+rwx"
     become: yes
     become_user: root
   - name: Hush login messages
