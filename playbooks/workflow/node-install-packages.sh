@@ -16,13 +16,18 @@ else
 fi
 
 #install nextflow 
-cd $HOME
-mkdir -p nextflow
-cd nextflow/
-curl -fsSL get.nextflow.io | bash
-#add to PATH
-echo "export PATH=$HOME/nextflow:$PATH" >> $HOME/.bashrc
-echo "export PATH=$HOME/nextflow:$PATH" >> $HOME/.bash_profile
+if [ -z `which docker` ]; then
+	cd /usr/local/
+	mkdir -p nextflow
+	cd nextflow/
+	curl -fsSL get.nextflow.io | bash
+	#add to PATH
+	echo "export PATH=/usr/local/nextflow:$PATH" >> $HOME/.bashrc
+	echo "export PATH=/usr/local/nextflow:$PATH" >> $HOME/.bash_profile
+else 
+        echo "Nextflow is already installed on this machine."
+fi
+
 # install docker if needed
 if [ -z `which docker` ]; then
 	sudo apt-get -y install apt-transport-https ca-certificates
