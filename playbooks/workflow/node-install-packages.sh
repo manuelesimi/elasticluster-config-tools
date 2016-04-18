@@ -16,15 +16,14 @@ else
 fi
 
 #install nextflow 
-if [ -z `which nextflow` ]; then
-	cd /usr/local/
-	sudo mkdir -p nextflow
-	chmod -R a+x+w+r nextflow
-	cd nextflow/
+if [ -z `which nextflow`  ]; then
+	sudo mkdir -p /nextflow && sudo chmod -R a+x+w+r /nextflow
+	cd /nextflow
 	curl -fsSL get.nextflow.io | bash
 	#add to PATH
-	echo "export PATH=/usr/local/nextflow:$PATH" >> $HOME/.bashrc
-	echo "export PATH=/usr/local/nextflow:$PATH" >> $HOME/.bash_profile
+	echo "export PATH=/nextflow:$PATH" >> $HOME/.bashrc
+	echo "export PATH=/nextflow:$PATH" >> $HOME/.bash_profile
+	cd $HOME
 else 
         echo "Nextflow is already installed on this machine."
 fi
