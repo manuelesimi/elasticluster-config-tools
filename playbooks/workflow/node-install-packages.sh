@@ -19,7 +19,7 @@ fi
 if [ -z `which nextflow` ]; then
 	cd /usr/local/
 	sudo mkdir -p nextflow
-	chown -R a+x+w+r nextflow
+	chmod -R a+x+w+r nextflow
 	cd nextflow/
 	curl -fsSL get.nextflow.io | bash
 	#add to PATH
