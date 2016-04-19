@@ -1,18 +1,33 @@
 ---
 - name: Grid Engine configuration Playbook
-  hosts: gridengine_master 
+  hosts: gridengine_clients:gridengine_master 
   tasks:
-  - name: Create target dir
-    command: mkdir -p /home/ubuntu/config-tools
+  - name: Create procs dir
+    file: path=/home/ubuntu/procs state=directory
     become: yes
     become_user: ubuntu
+    when: inventory_hostname in groups['gridengine_master']
+  - name: List processors per node
+    shell: echo -n `hostname` ' ' >> $HOME/procs/`nproc`.proc 
+    args:
+      executable: /bin/bash
+    become: yes
+    become_user: ubuntu
+    when: inventory_hostname in groups['gridengine_clients']
+  - name: Create script dir
+    file: path=/home/ubuntu/config-tools state=directory
+    become: yes
+    become_user: ubuntu
+    when: inventory_hostname in groups['gridengine_master']
   - name: Copy reconfigure script to node
     action: copy src="gridengine-queue/reconfigure.sh" dest="/home/ubuntu/config-tools/reconfigure.sh"
     become: yes
     become_user: ubuntu
+    when: inventory_hostname in groups['gridengine_master']
   - name: Reconfigure Grid Engine queue
     shell: source /home/ubuntu/config-tools/reconfigure.sh
     args:
       executable: /bin/bash
     become: yes
     become_user: ubuntu
+    when: inventory_hostname in groups['gridengine_master']
