@@ -16,12 +16,12 @@ done
 
 echo "slot config: ${SLOT_CONFIG::-1}"
 #add hostgroups
-sudo qconf -Ahgrp $HOME/procs/my-hostgroup.txt
+sudo qconf -Ahgrp $HOME/procs/my-hostgroups.txt
 
 #reconfigure the queue
 qconf -sq all.q > new_queue_config
 sed -i 's#/bin/csh#/bin/bash#g' new_queue_config
 sed -i 's#/tmp#/scratch#g' new_queue_config
-sed -i 's#slots *.*#slots      ${SLOT_CONFIG::-1} #g' new_queue_config
+sed -i "s#slots *.*#slots      ${SLOT_CONFIG::-1}#g" new_queue_config
 sudo qconf -Mq new_queue_config
 

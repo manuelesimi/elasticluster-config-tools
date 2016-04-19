@@ -2,6 +2,11 @@
 - name: Grid Engine configuration Playbook
   hosts: gridengine_clients:gridengine_master 
   tasks:
+  - name: Remove procs dir
+    file: path=/home/ubuntu/procs state=absent
+    become: yes
+    become_user: ubuntu
+    when: inventory_hostname in groups['gridengine_master']
   - name: Create procs dir
     file: path=/home/ubuntu/procs state=directory
     become: yes
