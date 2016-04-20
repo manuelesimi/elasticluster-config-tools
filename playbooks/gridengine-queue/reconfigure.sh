@@ -12,6 +12,8 @@ for f in *.proc; do
   hosts=`cat $f`	  
   echo "hostlist $hosts" >> my-hostgroups.txt
   SLOT_CONFIG="${SLOT_CONFIG}[@$group_name=$n_proc],"
+  #see http://arc.liv.ac.uk/SGE/howto/sge-configs.html#_slot_limits_a_id_slotlimit_a	
+  sudo qconf -mattr exechost complex_values slots=$n_proc $hosts
 done
 
 echo "slot config: ${SLOT_CONFIG::-1}"
