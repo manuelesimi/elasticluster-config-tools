@@ -31,3 +31,16 @@ sudo qconf -Mq new_queue_config
 qconf -sc > new_complex_config
 echo "exclusive           excl       BOOL        EXCL    YES         YES        FALSE    0" >> new_complex_config
 sudo qconf -Mc new_complex_config
+
+#reconfigure memory on each host
+cd $HOME/procs
+for m in *.mem; do
+  echo "Loading memory settings for $m"
+  filename=$(basename "$m")
+  hostname="${filename%.*}"
+  mem=`cat $m`
+  echo "Seting virtual_free to $mem for $hostname"
+  sudo qconf -mattr exechost complex_values exclusive=true,virtual_free=$mem $hostname
+done
+
+

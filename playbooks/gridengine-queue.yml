@@ -19,6 +19,13 @@
     become: yes
     become_user: ubuntu
     when: inventory_hostname in groups['gridengine_clients']
+  - name: List processors per node
+    shell: free -gt | tail -1 | awk '{print $2"g"}' >> $HOME/procs/`hostname`.mem
+    args:
+      executable: /bin/bash
+    become: yes
+    become_user: ubuntu
+    when: inventory_hostname in groups['gridengine_clients']
   - name: Create script dir
     file: path=/home/ubuntu/config-tools state=directory
     become: yes
