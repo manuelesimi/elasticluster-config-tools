@@ -27,3 +27,7 @@ sed -i 's#/tmp#/scratch#g' new_queue_config
 sed -i "s#slots *.*#slots      ${SLOT_CONFIG::-1}#g" new_queue_config
 sudo qconf -Mq new_queue_config
 
+#reconfigure the complex configuration
+qconf -sc > new_complex_config
+echo "exclusive           excl       BOOL        EXCL    YES         YES        FALSE    0" >> new_complex_config
+sudo qconf -Mc new_complex_config
