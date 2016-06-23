@@ -12,7 +12,7 @@ for host in `elasticluster list-nodes $CLUSTER_NAME | grep "  -" | cut -d'-' -f2
 echo "restarting docker on $host"
 elasticluster ssh $CLUSTER_NAME -n $host << END
 n=0
-until [ "$n" -ge "5" ]
+until [ "$n" -ge 5 ]
  do
  	sudo restart docker
  	output=`docker run artifacts/base:latest wget http://www.google.com 2>&1` 
