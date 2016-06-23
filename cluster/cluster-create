@@ -11,14 +11,19 @@ elasticluster start --name $CLUSTER_NAME $NAME
 for host in `elasticluster list-nodes $CLUSTER_NAME | grep "  -" | cut -d'-' -f2`; do
 echo "restarting docker on $host"
 elasticluster ssh $CLUSTER_NAME -n $host << END
-#while true; do docker run artifacts/base:latest wget http://www.google.com && break; sleep 2; done
 n=0
 until [ $n -ge 5 ]
  do
-      sudo restart docker	
-      docker run artifacts/base:latest wget http://www.google.com && break
-      n=$[$n+1]
-      sleep 2
+ 	sudo restart docker
+ 	output=`docker run artifacts/base:latest wget http://www.google.com 2>&1` 
+ 	if [[ $output == *"failed"* ]]; then
+        	echo "Docker did not start properly! Trying to restart..."
+        	n=$[$n+1]
+        	sleep 3
+ 	else
+        	echo "Docker network is working properly!"
+ 		break
+ 	fi                 
  done
 END
 done
