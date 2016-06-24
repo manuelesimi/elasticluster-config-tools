@@ -24,5 +24,9 @@
     file: path=/home/ubuntu/.hushlogin state=touch
     become: yes
     become_user: ubuntu
+  - name: Copy docker restart script to node
+    action: copy src="workflow/docker-restart.sh" dest="/home/ubuntu/config-tools/docker-restart.sh"
+    become: yes
+    become_user: ubuntu
   - name: Make sure docker is running
     service: name=docker state=running
