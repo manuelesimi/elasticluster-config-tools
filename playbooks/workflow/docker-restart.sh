@@ -1,4 +1,3 @@
-set -x
 n=0
 until [ "$n" -ge 5 ]
  do
@@ -13,4 +12,3 @@ until [ "$n" -ge 5 ]
                 break
         fi                 
  done
-set +x
