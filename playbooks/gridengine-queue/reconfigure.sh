@@ -39,7 +39,7 @@ for m in *.mem; do
   filename=$(basename "$m")
   hostname="${filename%.*}"
   mem=`cat $m`
-  echo "Seting virtual_free to $mem for $hostname"
+  echo "Setting virtual_free to $mem for $hostname"
   sudo qconf -mattr exechost complex_values exclusive=true,virtual_free=$mem $hostname
 done
 

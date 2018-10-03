@@ -5,20 +5,35 @@ CLUSTER_NAME=gridengine
 . $HOME/.elasticluster/env
 
 # create the GE cluster on the cloud platform
-elasticluster start --name $CLUSTER_NAME $NAME 
-
-#restart docker on each node. This is needed when the network is not ready on the node at docker installation time.
-for host in `elasticluster list-nodes $CLUSTER_NAME | grep "  -" | cut -d'-' -f2`; do
-echo "restarting docker on $host"
-elasticluster ssh $CLUSTER_NAME -n $host << END
-cat ~/config-tools/docker-restart.sh | bash
-END
-done
+elasticluster start --name $CLUSTER_NAME $NAME
+#test if the command qsub is available
+sleep 30
+elasticluster ssh $CLUSTER_NAME "command -v qsub" \> /dev/null 2\>\&1
 
 if [ $? -eq 0 ]
 then
-  echo "Cluster ${CLUSTER_NAME} successfully created."
+   restartDocker
+   echo "Cluster ${CLUSTER_NAME} successfully created."
 else
-  echo "Could not create the cluster." >&2
+    echo "Setting up the cluster..."
+    sleep 60
+    elasticluster setup $CLUSTER_NAME
+    elasticluster ssh $CLUSTER_NAME "command -v qsub" \> /dev/null 2\>\&1
+    if [ $? -eq 0 ]
+    then
+        restartDocker
+        echo "Cluster ${CLUSTER_NAME} successfully created."
+    else
+        echo "Could not create the cluster." >&2
+    fi
 fi
 
+function restartDocker {
+    #restart docker on each node. This is needed when the network is not ready on the node at docker installation time.
+    for host in `elasticluster list-nodes $CLUSTER_NAME | grep "  -" | cut -d'-' -f2`; do
+        echo "restarting docker on $host"
+        elasticluster ssh $CLUSTER_NAME -n $host << END
+cat ~/config-tools/docker-restart.sh | bash
+END
+    done
+}
