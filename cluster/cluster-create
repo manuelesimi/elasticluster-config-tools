@@ -1,5 +1,16 @@
 #!/bin/bash
 
+
+function restartDocker {
+    #restart docker on each node. This is needed when the network is not ready on the node at docker installation time.
+    for host in `elasticluster list-nodes $CLUSTER_NAME | grep "  -" | cut -d'-' -f2`; do
+        echo "restarting docker on $host"
+        elasticluster ssh $CLUSTER_NAME -n $host << END
+cat ~/config-tools/docker-restart.sh | bash
+END
+    done
+}
+
 NAME=gridengine
 CLUSTER_NAME=gridengine
 . $HOME/.elasticluster/env
@@ -28,12 +39,3 @@ else
     fi
 fi
 
-function restartDocker {
-    #restart docker on each node. This is needed when the network is not ready on the node at docker installation time.
-    for host in `elasticluster list-nodes $CLUSTER_NAME | grep "  -" | cut -d'-' -f2`; do
-        echo "restarting docker on $host"
-        elasticluster ssh $CLUSTER_NAME -n $host << END
-cat ~/config-tools/docker-restart.sh | bash
-END
-    done
-}
